@@ -1,0 +1,49 @@
+# version: '3.8'
+
+# services:
+#   mongodb:
+#     image: mongo:latest
+#     volumes:
+#       - mongo-data:/data/db
+#     ports:
+#       - "27017:27017"
+
+#   app:
+#     build: .
+#     ports:
+#       - "3000:3000"
+#     depends_on:
+#       - mongodb
+
+# volumes:
+#   mongo-data:
+
+
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+    environment:
+      MONGO_URI: mongodb://mongodb:27017/Users  # MongoDB connection string
+
+volumes:
+  mongo-data:
+
+networks:
+  app-network:
